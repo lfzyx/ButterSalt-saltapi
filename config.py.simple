@@ -1,0 +1,27 @@
+class Config:
+    @staticmethod
+    def init_app(app):
+        pass
+
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+    SALT_API = "http://127.0.0.1:8000"    # SALT API address
+    SALT_USERNAME = "buttersalt"    # SALT API username
+    SALT_PASSWORD = "buttersalt"    # SALT API password
+
+
+class ProductionConfig(Config):
+    DEBUG = False
+
+    SALT_API = "http://192.168.0.1:8000"    # SALT API address
+    SALT_USERNAME = "buttersalt"    # SALT API username
+    SALT_PASSWORD = "buttersalt"    # SALT API password
+
+
+config = {
+    'development': DevelopmentConfig,
+    'production': ProductionConfig,
+    'default': DevelopmentConfig
+}
