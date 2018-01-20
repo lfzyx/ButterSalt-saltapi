@@ -12,6 +12,14 @@ class DevelopmentConfig(Config):
     SALT_PASSWORD = "buttersalt"    # SALT API password
 
 
+class TestingConfig(Config):
+    TESTING = True
+
+    SALT_API = "http://127.0.0.1:8000"    # SALT API address
+    SALT_USERNAME = "buttersalt"    # SALT API username
+    SALT_PASSWORD = "buttersalt"    # SALT API password
+
+
 class ProductionConfig(Config):
     DEBUG = False
 
@@ -22,6 +30,7 @@ class ProductionConfig(Config):
 
 config = {
     'development': DevelopmentConfig,
+    'testing': TestingConfig,
     'production': ProductionConfig,
     'default': DevelopmentConfig
 }

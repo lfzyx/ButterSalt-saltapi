@@ -2,9 +2,9 @@ import requests
 import unittest
 from config import config
 
-url = config['default'].SALT_API
-username = config['default'].SALT_USERNAME
-password = config['default'].SALT_PASSWORD
+url = config['testing'].SALT_API
+username = config['testing'].SALT_USERNAME
+password = config['testing'].SALT_PASSWORD
 token = requests.Session()
 eauth = 'pam'
 

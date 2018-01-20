@@ -3,9 +3,9 @@ from buttersalt_saltapi import saltapi
 from config import config
 
 
-salt = saltapi.SaltApi(baseurl=config['default'].SALT_API,
-                       username=config['default'].SALT_USERNAME,
-                       password=config['default'].SALT_PASSWORD)
+salt = saltapi.SaltApi(baseurl=config['testing'].SALT_API,
+                       username=config['testing'].SALT_USERNAME,
+                       password=config['testing'].SALT_PASSWORD)
 
 
 class ServerTestCase(unittest.TestCase):
