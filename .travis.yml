@@ -9,5 +9,10 @@ install:
 
 jobs:
   include:
-    - stage: test
-      script: python -m unittest tests/test*
+    - stage: deploy
+      script: mkdir artifact && tar czvf artifact/lfzyx.org.tar.gz -C _build/html .
+      deploy:
+        provider: pypi
+        user: $user
+        password: $password
+        distributions: "bdist_wheel"

@@ -1,5 +1,6 @@
 # ButterSalt-saltapi
 
+[![Build Status](https://travis-ci.org/lfzyx/lfzyx.org.svg?branch=master)](https://travis-ci.org/lfzyx/lfzyx.org)
 
 ButterSalt-saltapi is a wrapper for salt rest_cherrypy API!
 
