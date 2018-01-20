@@ -9,6 +9,9 @@ install:
 
 jobs:
   include:
+    - stage: test
+      script: python -m unittest tests/test*
+
     - stage: deploy
       script: skip
       deploy:
