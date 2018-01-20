@@ -10,7 +10,7 @@ install:
 jobs:
   include:
     - stage: deploy
-      script: mkdir artifact && tar czvf artifact/lfzyx.org.tar.gz -C _build/html .
+      script: skip
       deploy:
         provider: pypi
         user: $user
