@@ -1,10 +1,10 @@
 import requests
 import unittest
-from config import config
+import os
 
-url = config['testing'].SALT_API
-username = config['testing'].SALT_USERNAME
-password = config['testing'].SALT_PASSWORD
+url = os.environ.get('SALT_API') or "http://127.0.0.1:8000"
+username = os.environ.get('SALT_USERNAME') or "buttersalt"
+password = os.environ.get('SALT_PASSWORD') or "buttersalt"
 token = requests.Session()
 eauth = 'pam'
 
