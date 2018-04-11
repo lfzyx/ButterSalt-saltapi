@@ -3,9 +3,19 @@ import os
 from buttersalt_saltapi import saltapi
 
 
-salt = saltapi.SaltApi(baseurl=os.environ.get('SALT_API') or "http://127.0.0.1:8000",
-                       username=os.environ.get('SALT_USERNAME') or "buttersalt",
-                       password=os.environ.get('SALT_PASSWORD') or "buttersalt")
+url = os.environ.get('SALT_API_URI') or "http://buttersalt:buttersalt@127.0.0.1:8000"
+
+
+class App(object):
+    class config(object):
+        @classmethod
+        def get(self, SALT_API_URI):
+            return url
+
+
+app = App()
+salt = saltapi.SaltApi()
+salt.init_app(app)
 
 
 class ServerTestCase(unittest.TestCase):
