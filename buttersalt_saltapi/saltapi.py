@@ -10,6 +10,7 @@ Minions use local client enforce.
 
 import requests
 import json
+import re
 
 
 class LoginError(Exception):
@@ -44,9 +45,29 @@ class SaltApiBase(object):
                (self.address, self.username, self.password, self.eauth, self.Token)
 
     def init_app(self, app):
-        self.address = app.config.get('SALT_API')
-        self.username = app.config.get('SALT_USERNAME')
-        self.password = app.config.get('SALT_PASSWORD')
+        pattern = re.compile(r'''
+                (?P<name>[\w\+]+)://
+                (?:
+                    (?P<username>[^:/]*)
+                    (?::(?P<password>.*))?
+                @)?
+                (?:
+                    (?:
+                        \[(?P<ipv6host>[^/]+)\] |
+                        (?P<ipv4host>[^/:]+)
+                    )?
+                    (?::(?P<port>[^/]*))?
+                )?
+                (?:/(?P<database>.*))?
+                ''', re.X)
+
+        m = pattern.match(app.config.get('SALT_API_URI'))
+        components = m.groupdict()
+
+        self.address = '{}://{}:{}'\
+            .format(components.get('name'), components.get('ipv4host'), components.get('port'))
+        self.username = components.get('username')
+        self.password = components.get('password')
 
     def login(self):
         """ salt.netapi.rest_cherrypy.app.Login!
