@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name='buttersalt_saltapi',
     description='The ButterSalt wrapper around the salt-api',
-    version='1.0.4',
+    version='1.0.5',
     author='lfzyx',
     author_email='lfzyx.me@gmail.com',
     url='https://github.com/lfzyx/ButterSalt-saltapi',
@@ -14,7 +14,7 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Topic :: Software Development :: Libraries :: Python Modules',
         ],
-    python_requires='>=3.6.4',
+    python_requires='~=3.6',
     install_requires=[
           'requests',
       ],
