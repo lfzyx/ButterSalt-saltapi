@@ -17,6 +17,9 @@ class LoginError(Exception):
     def __init__(self, value):
         self.value = value
 
+    def __str__(self):
+        return repr(self.value)
+
 
 class SaltApiBase(object):
     """ Salt api Base object.
@@ -81,16 +84,13 @@ class SaltApiBase(object):
                 'eauth': self.eauth,
             })
         except (requests.exceptions.ConnectionError, requests.exceptions.HTTPError, requests.exceptions.Timeout,
-                requests.exceptions.TooManyRedirects, requests.exceptions.RequestException) as err:
-            raise 'Requests Failed {}'.format(err)
-        except TypeError as err:
-            raise 'Requests Failed {}'.format(err)
-
+                requests.exceptions.TooManyRedirects, requests.exceptions.RequestException):
+            raise
         else:
             if responseinfo.status_code == 200:
                 return True
             else:
-                raise LoginError('Login Failed')
+                raise LoginError(responseinfo.status_code)
 
     def get_keys(self, key=None):
         """ salt.netapi.rest_cherrypy.app.Keys!
@@ -98,11 +98,7 @@ class SaltApiBase(object):
         :param key: a specific key
         :return: Show the list of minion keys or detail on a specific key
         """
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             if key:
                 responseinfo = self.Token.get(self.address + '/keys/%s' % key)
                 return responseinfo.json()['return']['minions']
@@ -114,11 +110,7 @@ class SaltApiBase(object):
         """ salt.wheel.key.delete!
 
         """
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             responseinfo = self.Token.post(self.address + '/', json={
                 'client': "wheel",
                 'fun': "key.delete",
@@ -130,11 +122,7 @@ class SaltApiBase(object):
         """ salt.wheel.key.delete!
 
         """
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             responseinfo = self.Token.post(self.address + '/', json={
                 'client': "wheel",
                 'fun': "key.accept",
@@ -148,11 +136,7 @@ class SaltApiBase(object):
         :param jid: job id
         :return: List jobs or show a single job from the job cache.
         """
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             if jid:
                 responseinfo = self.Token.get(self.address + '/jobs/%s' % jid)
                 return responseinfo.json()['info'][0]
@@ -166,11 +150,7 @@ class SaltApiBase(object):
         :param mid: minion id
         :return: lists of minions or  minion details
         """
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             if mid:
                 responseinfo = self.Token.get(self.address + '/minions/%s' % mid)
                 return responseinfo.json()['return'][0]
@@ -183,11 +163,7 @@ class SaltApiBase(object):
 
         :return: Return a dump of statistics collected from the CherryPy server
         """
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             responseinfo = self.Token.get(self.address + '/stats')
             return responseinfo.json()
 
@@ -205,11 +181,7 @@ class SaltApiBase(object):
             args = []
         if kwargs is None:
             kwargs = {}
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             responseinfo = self.Token.post(self.address + '/minions/', json={
                 'tgt': tgt,
                 'expr_form': expr_form,
@@ -234,11 +206,7 @@ class SaltApiBase(object):
             args = []
         if kwargs is None:
             kwargs = {}
-        try:
-            self.login()
-        except LoginError:
-            return False
-        else:
+        if self.login():
             if tgt is None:
                 # Generally the client is runner
                 responseinfo = self.Token.post(self.address + '/', json={
@@ -266,40 +234,25 @@ class SaltApi(SaltApiBase):
     """
 
     def get_accepted_keys(self):
-        return json.dumps(self.get_keys()['minions'])
+        if self.login():
+            return json.dumps(self.get_keys()['minions'])
 
     def read_pillar_file(self, path):
-        try:
-            self.login()
-        except LoginError as e:
-            return e
-        else:
+        if self.login():
             responseinfo = self.execution_command_low(client='wheel', fun='pillar_roots.read', args=[path])
             return responseinfo['data']
 
     def write_pillar_file(self, data, path):
-        try:
-            self.login()
-        except LoginError as e:
-            return e
-        else:
+        if self.login():
             responseinfo = self.execution_command_low(client='wheel', fun='pillar_roots.write', args=[data, path])
             return responseinfo['data']
 
     def read_state_file(self, path):
-        try:
-            self.login()
-        except LoginError as e:
-            return e
-        else:
+        if self.login():
             responseinfo = self.execution_command_low(client='wheel', fun='file_roots.read', args=[path])
             return responseinfo['data']
 
     def write_state_file(self, data, path):
-        try:
-            self.login()
-        except LoginError as e:
-            return e
-        else:
+        if self.login():
             responseinfo = self.execution_command_low(client='wheel', fun='file_roots.write', args=[data, path])
             return responseinfo['data']
