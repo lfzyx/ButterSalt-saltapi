@@ -3,7 +3,8 @@ from setuptools import setup, find_packages
 setup(
     name='buttersalt_saltapi',
     description='The ButterSalt wrapper around the salt-api',
-    version='1.0.5',
+    long_description='ButterSalt-saltapi is a wrapper for salt rest_cherrypy API!',
+    version='1.0.6',
     author='lfzyx',
     author_email='lfzyx.me@gmail.com',
     url='https://github.com/lfzyx/ButterSalt-saltapi',

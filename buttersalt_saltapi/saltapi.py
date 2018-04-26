@@ -28,7 +28,10 @@ class SaltApiBase(object):
 
     def __init__(self, app=None, baseurl=None, username=None, password=None, eauth='pam'):
         if app is not None:
-            self.init_app(app)
+            self.app = app
+            self.init_app(self.app)
+        else:
+            self.app = None
 
         """ Instantiation SaltApiBase class.
 
