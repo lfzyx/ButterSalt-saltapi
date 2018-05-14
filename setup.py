@@ -4,7 +4,7 @@ setup(
     name='buttersalt_saltapi',
     description='The ButterSalt wrapper around the salt-api',
     long_description='ButterSalt-saltapi is a wrapper for salt rest_cherrypy API!',
-    version='1.0.6',
+    version='1.0.7',
     author='lfzyx',
     author_email='lfzyx.me@gmail.com',
     url='https://github.com/lfzyx/ButterSalt-saltapi',

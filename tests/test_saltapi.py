@@ -1,19 +1,15 @@
 import unittest
 import os
+import collections
 from buttersalt_saltapi import saltapi
 
 
 url = os.environ.get('SALT_API_URI') or "http://buttersalt:buttersalt@127.0.0.1:8000"
 
+# use namedtuple construct app for salt.init_app
+config = collections.namedtuple('config', ('config',))
+app = config({'SALT_API_URI': url})
 
-class App(object):
-    class config(object):
-        @classmethod
-        def get(self, SALT_API_URI):
-            return url
-
-
-app = App()
 salt = saltapi.SaltApi()
 salt.init_app(app)
 
